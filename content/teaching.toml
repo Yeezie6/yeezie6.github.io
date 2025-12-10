@@ -1,0 +1,9 @@
+type = "card"
+title = "Internship"
+description = "About my Internship."
+
+[[items]]
+title = "BeingBeyond"
+subtitle = "Reaserch Intern"
+date = "2024"
+content = "Large Modals and Dexterous Manipulation"

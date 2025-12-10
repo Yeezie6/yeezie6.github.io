@@ -1,0 +1,53 @@
+[site]
+title = "Yiqing Wang"
+description = "PhD student at Shanghai Jiao Tong University."
+favicon = "/favicon.svg"
+last_updated = "December 11, 2025"
+
+[author]
+name = "Yiqing Wang"
+title = "PhD Student"
+institution = "Shanghai Jiao Tong University"
+avatar = "/nailong_bread.jpg"
+
+[social]
+# Contact information (leave blank or delete to hide)
+
+email = "yeezie66@gmail.com"
+location = "Shanghai, China"
+location_url = "https://maps.google.com"
+google_scholar = "https://scholar.google.com"
+orcid = "https://orcid.org"
+github = "https://github.com/Yeezie6"
+linkedin = "https://linkedin.com"
+
+[features]
+# Show a like button on the about page
+enable_likes = true
+
+# Display all subpages on a single page
+enable_one_page_mode = false
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Publications"
+type = "page"
+target = "publications"
+href="/publications"
+
+[[navigation]]
+title = "Awards"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "Internship"
+type = "page"
+target = "teaching"
+href = "/teaching"

@@ -1,0 +1,35 @@
+type = "about"
+title = "About"
+
+[profile]
+research_interests = [
+  "Robotics",
+  "Dexterous Manipulation",
+  "Learning from Human Video"
+]
+
+[[sections]]
+id = "about"
+type = "markdown"
+source = "bio.md"
+title = "About"
+
+[[sections]]
+id = "featured_publications"
+type = "publications"
+title = "Selected Publications"
+filter = "selected"
+limit = 5
+
+[[sections]]
+id = "internship"
+type = "teaching"
+title = "Internship"
+source = "teaching.toml"
+
+[[sections]]
+id = "news"
+type = "list"
+title = "News"
+source = "news.toml"
+

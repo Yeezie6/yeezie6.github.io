@@ -1,0 +1,23 @@
+type = "card"
+title = "Awards"
+description = "Honors and awards I have received."
+
+[[items]]
+title = "Xiaomi Scholarship"
+subtitle = "小米奖学金"
+date = "2025"
+
+[[items]]
+title = "Soong Ching Ling Future Scholarship"
+subtitle = "宋庆龄未来助学金"
+date = "2025"
+
+[[items]]
+title = "National Scholarship"
+subtitle = "国家奖学金"
+date = "2024"
+
+[[items]]
+title = "First-Class People's Scholarship"
+subtitle = "一等人民奖学金×5"
+date = "2023-2025"
