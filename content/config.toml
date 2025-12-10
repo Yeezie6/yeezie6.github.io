@@ -14,7 +14,7 @@ avatar = "/nailong_bread.jpg"
 # Contact information (leave blank or delete to hide)
 
 email = "yeezie66@gmail.com"
-location = "Shanghai, China"
+location = "Shanghai,China"
 location_url = "https://maps.google.com"
 google_scholar = "https://scholar.google.com"
 orcid = "https://orcid.org"
