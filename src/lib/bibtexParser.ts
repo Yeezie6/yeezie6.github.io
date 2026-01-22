@@ -37,7 +37,13 @@ const monthMapping: Record<string, number> = {
 export function parseBibTeX(bibtexContent: string): Publication[] {
   const config = getConfig();
   const authorName = config.author.name;
-  const entries = bibtexParse.toJSON(bibtexContent);
+  let entries;
+  try {
+    entries = bibtexParse.toJSON(bibtexContent);
+  } catch (error) {
+    console.error('Failed to parse BibTeX content:', error);
+    throw new Error('Failed to parse BibTeX content. Please check for syntax errors in your .bib file.');
+  }
 
   return entries.map((entry: { entryType: string; citationKey: string; entryTags: Record<string, string> }, index: number) => {
     const tags = entry.entryTags;
