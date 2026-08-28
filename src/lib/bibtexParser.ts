@@ -49,7 +49,7 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
     const tags = entry.entryTags;
 
     // Parse authors
-    const authors = parseAuthors(tags.author || '', authorName);
+    const authors = parseAuthors(tags.displayauthor || tags.author || '', authorName);
 
     // Parse year and month
     const year = parseInt(tags.year) || new Date().getFullYear();
@@ -96,7 +96,7 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
       preview,
 
       // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code']),
+      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code', 'displayauthor']),
     };
 
     // Clean up undefined fields
@@ -147,6 +147,11 @@ function parseAuthors(authorsStr: string, highlightName?: string): Array<{ name:
       if (name.includes(',')) {
         const parts = name.split(',').map(p => p.trim());
         name = `${parts[1]} ${parts[0]}`;
+      }
+
+      // BibTeX uses "and others" to represent an abbreviated author list.
+      if (name.toLowerCase() === 'others') {
+        name = 'et al.';
       }
 
       // Check if this is the site owner (to highlight)

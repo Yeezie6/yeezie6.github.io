@@ -1,3 +1,15 @@
 [[news]]
+date = "2026-09"
+content = "Started my PhD at Shanghai Jiao Tong University."
+
+[[news]]
+date = "2026-09"
+content = "Started a Foundation Model Research Internship at Sharpa Robotics, focusing on dexterous manipulation."
+
+[[news]]
+date = "2026-05"
+content = "Started a Research Internship at BAAI, focusing on RL post-training, human-in-the-loop learning, and DAgger."
+
+[[news]]
 date = "2025-11"
 content = "Started a Research Internship at BeingBeyond, focusing on large models and dexterous manipulation."
