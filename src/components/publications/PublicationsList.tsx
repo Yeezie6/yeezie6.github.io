@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Publication } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
-import { cn } from '@/lib/utils';
+import { cn, formatPublicationVenue } from '@/lib/utils';
 
 interface PublicationsListProps {
     config: PublicationPageConfig;
@@ -228,7 +228,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                                         ))}
                                     </p>
                                     <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {pub.journal || pub.conference} {pub.year}
+                                        {formatPublicationVenue(pub)}
                                     </p>
 
                                     {pub.description && (
@@ -256,6 +256,16 @@ export default function PublicationsList({ config, publications, embedded = fals
                                                 className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
                                             >
                                                 Code
+                                            </a>
+                                        )}
+                                        {pub.website && (
+                                            <a
+                                                href={pub.website}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
+                                            >
+                                                Webpage
                                             </a>
                                         )}
                                         {pub.abstract && (
