@@ -3,7 +3,25 @@ title = "Internship"
 description = "About my Internship."
 
 [[items]]
+title = "BAAI"
+subtitle = "Research Intern"
+date = "2026"
+content = "Dexterous Hand Manipulation, RL Post-Training, Human-in-the-Loop (HiL), and DAgger"
+
+[[items]]
+title = "Shanghai AI Lab"
+subtitle = "Research Intern"
+date = "2026"
+content = "Online Reinforcement Learning"
+
+[[items]]
+title = "Sharpa Robotics"
+subtitle = "Foundation Model Research Intern"
+date = "2026"
+content = "Dexterous Manipulation"
+
+[[items]]
 title = "BeingBeyond"
-subtitle = "Reaserch Intern"
+subtitle = "Research Intern"
 date = "2025-2026"
-content = "Large Modals and Dexterous Manipulation"
+content = "Large Models and Dexterous Manipulation"
