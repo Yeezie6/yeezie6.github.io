@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { CardPageConfig } from '@/types/page';
 
 export default function CardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
@@ -28,31 +29,46 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
                         transition={{ duration: 0.4, delay: 0.1 * index }}
                         className={`bg-white dark:bg-neutral-900 ${embedded ? "p-4" : "p-6"} rounded-xl shadow-sm border border-neutral-200 dark:border-neutral-800 hover:shadow-lg transition-all duration-200 hover:scale-[1.01]`}
                     >
-                        <div className="flex justify-between items-start mb-2">
-                            <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>{item.title}</h3>
-                            {item.date && (
-                                <span className="text-sm text-neutral-500 font-medium bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
-                                    {item.date}
-                                </span>
+                        <div className="flex items-start gap-4">
+                            <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap justify-between items-start gap-2 mb-2">
+                                    <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>{item.title}</h3>
+                                    {item.date && (
+                                        <span className="shrink-0 text-sm text-neutral-500 font-medium bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded">
+                                            {item.date}
+                                        </span>
+                                    )}
+                                </div>
+                                {item.subtitle && (
+                                    <p className={`${embedded ? "text-sm" : "text-base"} text-accent font-medium mb-3`}>{item.subtitle}</p>
+                                )}
+                                {item.content && (
+                                    <p className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
+                                        {item.content}
+                                    </p>
+                                )}
+                                {item.tags && (
+                                    <div className="flex flex-wrap gap-2 mt-4">
+                                        {item.tags.map(tag => (
+                                            <span key={tag} className="text-xs text-neutral-500 bg-neutral-50 dark:bg-neutral-800/50 px-2 py-1 rounded border border-neutral-100 dark:border-neutral-800">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                            {item.image && (
+                                <div className={`shrink-0 ${embedded ? "w-20 h-14 sm:w-28 sm:h-16" : "w-24 h-16 sm:w-32 sm:h-20"} flex items-center justify-center rounded-lg border border-neutral-200 bg-white p-2 shadow-sm`}>
+                                    <Image
+                                        src={item.image}
+                                        alt={`${item.title} logo`}
+                                        width={160}
+                                        height={96}
+                                        className="h-full w-full object-contain"
+                                    />
+                                </div>
                             )}
                         </div>
-                        {item.subtitle && (
-                            <p className={`${embedded ? "text-sm" : "text-base"} text-accent font-medium mb-3`}>{item.subtitle}</p>
-                        )}
-                        {item.content && (
-                            <p className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
-                                {item.content}
-                            </p>
-                        )}
-                        {item.tags && (
-                            <div className="flex flex-wrap gap-2 mt-4">
-                                {item.tags.map(tag => (
-                                    <span key={tag} className="text-xs text-neutral-500 bg-neutral-50 dark:bg-neutral-800/50 px-2 py-1 rounded border border-neutral-100 dark:border-neutral-800">
-                                        {tag}
-                                    </span>
-                                ))}
-                            </div>
-                        )}
                     </motion.div>
                 ))}
             </div>

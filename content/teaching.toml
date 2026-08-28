@@ -7,21 +7,25 @@ title = "BeingBeyond"
 subtitle = "Research Intern"
 date = "2025-2026"
 content = "Large Models and Dexterous Manipulation"
+image = "/internships/beingbeyond.png"
 
 [[items]]
 title = "BAAI"
 subtitle = "Research Intern"
 date = "2026"
 content = "RL Post-Training, HiL and DAgger"
+image = "/internships/baai.png"
 
 [[items]]
 title = "Shanghai AI Lab"
 subtitle = "Research Intern"
 date = "2026"
 content = "Online Reinforcement Learning"
+image = "/internships/shanghai-ai-lab.png"
 
 [[items]]
 title = "Sharpa Robotics"
 subtitle = "Foundation Model Research Intern"
 date = "2026"
 content = "Dexterous Manipulation"
+image = "/internships/sharpa.svg"
