@@ -13,7 +13,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { Publication } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
-import { cn, formatPublicationVenue } from '@/lib/utils';
+import { cn } from '@/lib/utils';
+import PublicationVenue from './PublicationVenue';
 
 interface PublicationsListProps {
     config: PublicationPageConfig;
@@ -228,7 +229,7 @@ export default function PublicationsList({ config, publications, embedded = fals
                                         ))}
                                     </p>
                                     <p className="text-sm font-medium text-neutral-800 dark:text-neutral-600 mb-3">
-                                        {formatPublicationVenue(pub)}
+                                        <PublicationVenue publication={pub} />
                                     </p>
 
                                     {pub.description && (
