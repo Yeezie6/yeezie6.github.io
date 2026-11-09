@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { Publication } from '@/types/publication';
-import { formatPublicationVenue } from '@/lib/utils';
+import PublicationVenue from '@/components/publications/PublicationVenue';
 
 interface SelectedPublicationsProps {
     publications: Publication[];
@@ -54,7 +54,7 @@ export default function SelectedPublications({ publications, title = 'Selected P
                             ))}
                         </p>
                         <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-2">
-                            {formatPublicationVenue(pub)}
+                            <PublicationVenue publication={pub} />
                         </p>
                         {pub.description && (
                             <p className="text-sm text-neutral-500 dark:text-neutral-500 line-clamp-2">

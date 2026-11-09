@@ -68,6 +68,12 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
     // Parse preview field (remove braces if present)
     const preview = tags.preview?.replace(/[{}]/g, '');
 
+    // Parse award field (e.g. "Oral", "Highlight"), comma-separated if multiple
+    const awards = tags.award
+      ?.split(',')
+      .map((a: string) => cleanBibTeXString(a))
+      .filter(Boolean);
+
     // Create publication object
     const publication: Publication = {
       id: entry.citationKey || tags.id || `pub-${Date.now()}-${index}`,
@@ -96,9 +102,10 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
       description: cleanBibTeXString(tags.description || tags.note),
       selected,
       preview,
+      awards: awards?.length ? awards : undefined,
 
       // Store original BibTeX (excluding custom fields)
-      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code', 'website', 'displayauthor']),
+      bibtex: reconstructBibTeX(entry, ['selected', 'preview', 'description', 'keywords', 'code', 'website', 'displayauthor', 'award']),
     };
 
     // Clean up undefined fields
