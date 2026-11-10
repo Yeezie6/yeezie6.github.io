@@ -4,8 +4,9 @@ title = "About"
 [profile]
 research_interests = [
   "Robotics",
-  "Dexterous Manipulation",
-  "Learning from Human Video"
+  "Embodied Pretraining",
+  "Egocentric Human and Robot Data",
+  "Dexterous Manipulation"
 ]
 
 [[sections]]
