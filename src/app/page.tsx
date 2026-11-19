@@ -11,16 +11,18 @@ import { CardPageConfig } from '@/types/page';
 
 export default function Home() {
   const config = getConfig();
+  const about = getTomlContent<{ profile: { research_interests: string[] } }>('about.toml');
+  const interests = about?.profile?.research_interests || [];
   const publications = parseBibTeX(getBibtexContent('publications.bib')).filter(p => p.selected);
   const experience = getTomlContent<CardPageConfig>('teaching.toml');
   const news = getTomlContent<{ news: { date: string; content: string }[] }>('news.toml');
   return <div className="site-shell">
     <section className="hero" aria-labelledby="hero-title">
       <div className="hero-copy">
-        <p className="eyebrow">Robotics · Learning · Human experience</p>
+        <p className="eyebrow">Robotics · Embodied pretraining · Agentic AI</p>
         <h1 id="hero-title">{config.author.name}<span className="accent">.</span></h1>
-        <p className="hero-statement">Learning dexterity.<br /><span>From human experience.</span></p>
-        <p className="hero-description">{config.author.title} at {config.author.institution}.{' '}<br />Exploring how robots can learn to see, interact, and act.</p>
+        <p className="hero-statement">Embodied intelligence.<br /><span>From human and robot data.</span></p>
+        <p className="hero-description">{config.author.title} at {config.author.institution}.{' '}<br />Building data pipelines for embodied pretraining and dexterous manipulation.</p>
         <div className="hero-actions">
           <a className="button primary" href="#research">Explore my research <ArrowDown size={17} /></a>
           {config.social.email && <a className="button secondary" href={`mailto:${config.social.email}`}>Get in touch <Mail size={17} /></a>}
@@ -34,11 +36,9 @@ export default function Home() {
         <div className="profile-note-top"><Image src={config.author.avatar} width={80} height={80} priority alt="Yiqing's yellow character avatar" /><span>Curiosity, in motion.</span></div>
         <p className="eyebrow">Research focus</p>
         <ul className="focus-list">
-          <li><span>01</span> Dexterous manipulation</li>
-          <li><span>02</span> Learning from human video</li>
-          <li><span>03</span> Reinforcement learning</li>
+          {interests.map((interest, index) => <li key={interest}><span>{String(index + 1).padStart(2, '0')}</span>{interest}</li>)}
         </ul>
-        <p className="profile-note-bottom">From understanding human interaction<br />to learning robot behavior.</p>
+        <p className="profile-note-bottom">Egocentric human videos and robot data.<br />Embodied foundation models and agentic AI.</p>
       </aside>
     </section>
     <section className="about-section section" id="about" aria-labelledby="about-title">

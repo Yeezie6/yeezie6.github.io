@@ -1,6 +1,6 @@
 type = "card"
 title = "Experience"
-description = "Research internships in robot learning, dexterous manipulation, and reinforcement learning."
+description = "Research internships in embodied pretraining, dexterous manipulation, reinforcement learning, and agentic AI."
 
 [[items]]
 title = "BeingBeyond"
@@ -20,12 +20,12 @@ image = "/internships/baai.png"
 title = "Shanghai AI Lab"
 subtitle = "Research Intern"
 date = "2026"
-content = "Online Reinforcement Learning"
+content = "Agentic AI"
 image = "/internships/shanghai-ai-lab.png"
 
 [[items]]
 title = "Sharpa Robotics"
 subtitle = "Foundation Model Research Intern"
-date = "2026"
-content = "Dexterous Manipulation"
+date = "2026-2027"
+content = "Embodied Pretraining and Agentic AI"
 image = "/internships/sharpa.svg"

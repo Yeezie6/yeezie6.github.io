@@ -14,11 +14,8 @@ export default function PublicationVenue({ publication }: PublicationVenueProps)
         <>
             {venue}
             {publication.awards?.map((award) => (
-                <span
-                    key={award}
-                    className="ml-1.5 inline-flex items-center rounded-md px-2 py-1 align-middle text-xs font-bold uppercase leading-none tracking-wide text-white bg-red-600 shadow-sm dark:bg-red-500"
-                >
-                    {award}
+                <span key={award} className="font-semibold text-accent">
+                    {' '}{award}
                 </span>
             ))}
             {arxiv && ` · ${arxiv}`}

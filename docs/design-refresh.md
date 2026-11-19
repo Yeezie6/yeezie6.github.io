@@ -22,7 +22,11 @@ Source: https://www.ui-skills.com/skills/emilkowalski/apple-design
 - Homepage structure and introductory copy: `src/app/page.tsx`
 - Design tokens and responsive layout: `src/app/globals.css`
 
-The redesigned home is intentionally composed for this personal site rather than the original generic one-page template. The old `features.enable_one_page_mode`, `enable_likes` and `about.toml` section-order settings are not used by this homepage.
+The redesigned home is intentionally composed for this personal site rather than the original generic one-page template. Research interests are read from `content/about.toml`. The old `features.enable_one_page_mode`, `enable_likes` and `about.toml` section-order settings are not used by this homepage.
+
+## Upstream baseline
+
+The initial cluster checkout was stale. GitHub main `742ba0456a35cee9ffa9c9b613334a6e4adc19c4` was subsequently merged in full. Biography, interests, news, internship details and publication metadata use that latest upstream content. Before future changes, fetch GitHub and compare the working branch with the deployed site; do not assume the cluster checkout is current.
 
 ## Build on foundation_model_wyq
 
