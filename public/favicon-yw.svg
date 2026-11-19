@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <title>Yiqing Wang</title>
+  <rect width="64" height="64" rx="13" fill="#fbfbfd"/>
+  <g fill="#1d1d1f">
+    <path d="M3 18h6l6 11 6-11h6L18 35v12h-6V35z"/>
+    <path d="M27 18h6l3 19 4-19h6l4 19 3-19h6l-6 29h-6l-4-18-4 18h-6z"/>
+  </g>
+  <circle cx="58" cy="45" r="3" fill="#0066cc"/>
+</svg>
