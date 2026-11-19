@@ -1,6 +1,6 @@
 type = "card"
-title = "Internship"
-description = "About my Internship."
+title = "Experience"
+description = "Research internships in robot learning, dexterous manipulation, and reinforcement learning."
 
 [[items]]
 title = "BeingBeyond"

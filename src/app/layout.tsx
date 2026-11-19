@@ -1,115 +1,25 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Navigation from "@/components/layout/Navigation";
-import Footer from "@/components/layout/Footer";
-import { ThemeProvider } from "@/components/ui/ThemeProvider";
-import { getConfig } from "@/lib/config";
-
-export async function generateMetadata(): Promise<Metadata> {
+import type { Metadata } from 'next';
+import './globals.css';
+import Navigation from '@/components/layout/Navigation';
+import Footer from '@/components/layout/Footer';
+import { ThemeProvider } from '@/components/ui/ThemeProvider';
+import { getConfig } from '@/lib/config';
+export function generateMetadata(): Metadata {
   const config = getConfig();
   return {
-    title: {
-      default: config.site.title,
-      template: `%s | ${config.site.title}`
-    },
+    metadataBase: new URL('https://yeezie6.github.io'),
+    title: { default: `${config.site.title} — Robotics & Learning`, template: `%s | ${config.site.title}` },
     description: config.site.description,
-    keywords: [config.author.name, "PhD", "Research", config.author.institution],
-    authors: [{ name: config.author.name }],
-    creator: config.author.name,
-    publisher: config.author.name,
-    icons: {
-      icon: config.site.favicon,
-    },
-    openGraph: {
-      type: "website",
-      locale: "en_US",
-      title: config.site.title,
-      description: config.site.description,
-      siteName: `${config.author.name}'s Academic Website`,
-    },
+    authors: [{ name: config.author.name }], icons: { icon: config.site.favicon },
+    openGraph: { type: 'website', locale: 'en_US', title: config.site.title, description: config.site.description, siteName: config.site.title },
   };
 }
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const themeScript = `try{var p=JSON.parse(localStorage.getItem('theme-storage')||'null');var t=p?.state?.theme||'system';var d=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.add(d?'dark':'light')}catch{}`;
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const config = getConfig();
-
-  return (
-    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <head>
-        <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
-        {/* Speed up font connections */}
-        <link rel="dns-prefetch" href="https://google-fonts.jialeliu.com" />
-        <link rel="preconnect" href="https://google-fonts.jialeliu.com" crossOrigin="" />
-        {/* Non-blocking Google Fonts: preload + print media swap to avoid render-blocking */}
-        <link
-          rel="preload"
-          as="style"
-          href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          id="gfonts-css"
-          href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
-          media="print"
-        />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function(){
-                var l = document.getElementById('gfonts-css');
-                if (!l) return;
-                if (l.media !== 'all') {
-                  l.addEventListener('load', function(){ try { l.media = 'all'; } catch(e){} });
-                }
-              })();
-            `,
-          }}
-        />
-        <noscript>
-          {/* Fallback for no-JS environments */}
-          <link
-            rel="stylesheet"
-            href="https://google-fonts.jialeliu.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
-          />
-        </noscript>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('theme-storage');
-                const parsed = theme ? JSON.parse(theme) : null;
-                const setting = parsed?.state?.theme || 'system';
-                const prefersDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const effective = setting === 'dark' ? 'dark' : (setting === 'light' ? 'light' : (prefersDark ? 'dark' : 'light'));
-                var root = document.documentElement;
-                root.classList.add(effective);
-                root.setAttribute('data-theme', effective);
-              } catch (e) {
-                var root = document.documentElement;
-                root.classList.add('light');
-                root.setAttribute('data-theme', 'light');
-              }
-            `,
-          }}
-        />
-      </head>
-      <body className={`font-sans antialiased`}>
-        <ThemeProvider>
-          <Navigation
-            items={config.navigation}
-            siteTitle={config.site.title}
-            enableOnePageMode={config.features.enable_one_page_mode}
-          />
-          <main className="min-h-screen pt-16 lg:pt-20">
-            {children}
-          </main>
-          <Footer lastUpdated={config.site.last_updated} />
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+  return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head><body><ThemeProvider>
+    <a className="skip-link" href="#main">Skip to content</a>
+    <Navigation items={config.navigation} siteTitle={config.site.title} />
+    <main id="main" tabIndex={-1}>{children}</main><Footer lastUpdated={config.site.last_updated} />
+  </ThemeProvider></body></html>;
 }

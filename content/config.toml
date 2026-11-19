@@ -1,8 +1,8 @@
 [site]
 title = "Yiqing Wang"
-description = "PhD student at Shanghai Jiao Tong University."
+description = "Yiqing Wang is a PhD student at Shanghai Jiao Tong University, researching dexterous manipulation, robot learning, and learning from human video."
 favicon = "/favicon.svg"
-last_updated = "November 9, 2026"
+last_updated = "November 19, 2026"
 
 [author]
 name = "Yiqing Wang"
@@ -43,7 +43,7 @@ target = "awards"
 href = "/awards"
 
 [[navigation]]
-title = "Internship"
+title = "Experience"
 type = "page"
 target = "teaching"
 href = "/teaching"
