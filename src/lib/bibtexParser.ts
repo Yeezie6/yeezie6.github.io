@@ -117,6 +117,14 @@ export function parseBibTeX(bibtexContent: string): Publication[] {
 
     return publication;
   }).sort((a: Publication, b: Publication) => {
+    // Owner-selected display order, shared by the homepage and publications page.
+    const displayOrder = ['wang2026arthoi', 'beingbeyond2026beingh05', 'xpolicylab2026'];
+    const rank = (id: string) => {
+      const index = displayOrder.indexOf(id);
+      return index === -1 ? displayOrder.length : index;
+    };
+    if (rank(a.id) !== rank(b.id)) return rank(a.id) - rank(b.id);
+
     // Sort by year (descending), then by month if available
     if (b.year !== a.year) return b.year - a.year;
 
