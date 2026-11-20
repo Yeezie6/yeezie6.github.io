@@ -1,44 +1,75 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
+import { ArrowUp } from 'lucide-react';
 
-/** Progressive motion: the server-rendered page is always visible without JavaScript. */
+/** The head script arms motion before paint; without it, all content stays visible. */
 export default function PageMotion() {
   const path = usePathname();
   const progress = useRef<HTMLDivElement>(null);
-  useEffect(() => {
+  const backToTop = useRef<HTMLAnchorElement>(null);
+  useLayoutEffect(() => {
+    const root = document.documentElement;
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
-    const animations = new Set<Animation>();
-    const seen = new WeakSet<Element>();
-    const reveal = (element: Element, delay = 0) => {
-      if (preference.matches || seen.has(element)) return;
-      seen.add(element);
-      const animation = element.animate([
-        { opacity: 0, transform: 'translateY(16px)' },
-        { opacity: 1, transform: 'translateY(0)' },
-      ], { duration: 580, delay, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'backwards' });
-      animations.add(animation);
-      animation.onfinish = () => animations.delete(animation);
+    const elements = new Set<HTMLElement>();
+    let observer: IntersectionObserver | undefined;
+    let mutations: MutationObserver | undefined;
+    let firstFrame = 0;
+    let secondFrame = 0;
+    const reveal = (element: HTMLElement, immediate = false) => {
+      if (immediate) element.dataset.revealImmediate = '';
+      element.dataset.revealed = '';
+      observer?.unobserve(element);
     };
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) { reveal(entry.target); observer.unobserve(entry.target); }
+    const settle = () => {
+      elements.forEach(element => reveal(element, true));
+      delete root.dataset.motion;
+    };
+    // Do not hide an already-visible page if the pre-paint bootstrap timed out.
+    if (root.dataset.motion && !preference.matches && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) reveal(entry.target as HTMLElement);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
+      const collect = () => {
+        document.querySelectorAll<HTMLElement>('[data-reveal]').forEach(element => {
+          if (elements.has(element)) return;
+          elements.add(element);
+          if (element.hasAttribute('data-revealed')) return;
+          if (element.getBoundingClientRect().bottom <= 0 || element.contains(document.activeElement)) reveal(element, true);
+          else observer?.observe(element);
+        });
+      };
+      root.dataset.motion = 'ready';
+      // Commit the hidden style for a frame before observing even on a cached reload.
+      firstFrame = requestAnimationFrame(() => {
+        secondFrame = requestAnimationFrame(() => {
+          collect();
+          mutations = new MutationObserver(collect);
+          mutations.observe(document.getElementById('main')!, { childList: true, subtree: true });
+        });
       });
-    }, { threshold: .12 });
-    document.querySelectorAll('.section-heading, .about-section > div, .news-section > div, .news-list li, .experience-card, .contact-section, .page-heading').forEach(element => observer.observe(element));
-    document.querySelectorAll('.hero-copy > *, .profile-note').forEach((element, index) => reveal(element, Math.min(index, 5) * 65));
-    // Never leave a focused control moving, and cancel immediately if the OS preference changes.
-    const settle = () => { animations.forEach(animation => animation.cancel()); animations.clear(); };
+    }
+    const onFocus = (event: FocusEvent) => {
+      // Reveal only the focused branch; navigation focus must not cancel the intro.
+      let element = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-reveal]') : null;
+      while (element) { reveal(element, true); element = element.parentElement?.closest<HTMLElement>('[data-reveal]') || null; }
+    };
     const preferenceChanged = () => { if (preference.matches) settle(); };
+    const onPageShow = (event: PageTransitionEvent) => { if (event.persisted) settle(); };
     preference.addEventListener('change', preferenceChanged);
-    document.addEventListener('focusin', settle);
+    document.addEventListener('focusin', onFocus);
+    addEventListener('pageshow', onPageShow);
+
     let frame = 0;
     const update = () => {
       frame = 0;
-      const distance = document.documentElement.scrollHeight - innerHeight;
+      const distance = root.scrollHeight - innerHeight;
       const value = distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0;
       if (progress.current) progress.current.style.transform = `scaleX(${value})`;
+      if (backToTop.current) backToTop.current.hidden = scrollY < innerHeight * .85;
     };
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     addEventListener('scroll', schedule, { passive: true });
@@ -47,11 +78,16 @@ export default function PageMotion() {
     resize.observe(document.body);
     update();
     return () => {
-      observer.disconnect(); resize.disconnect(); settle(); cancelAnimationFrame(frame);
+      observer?.disconnect(); mutations?.disconnect(); resize.disconnect();
+      cancelAnimationFrame(firstFrame); cancelAnimationFrame(secondFrame); cancelAnimationFrame(frame);
       removeEventListener('scroll', schedule); removeEventListener('resize', schedule);
-      document.removeEventListener('focusin', settle);
+      removeEventListener('pageshow', onPageShow);
+      document.removeEventListener('focusin', onFocus);
       preference.removeEventListener('change', preferenceChanged);
     };
   }, [path]);
-  return <div className="reading-progress" aria-hidden="true"><div ref={progress} /></div>;
+  return <>
+    <div className="reading-progress" aria-hidden="true"><div ref={progress} /></div>
+    <a ref={backToTop} className="back-to-top icon-button" href="#main" aria-label="Back to top" hidden><ArrowUp size={19} /></a>
+  </>;
 }

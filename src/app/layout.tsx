@@ -16,9 +16,11 @@ export function generateMetadata(): Metadata {
   };
 }
 const themeScript = `try{var p=JSON.parse(localStorage.getItem('theme-storage')||'null');var t=p?.state?.theme||'system';var d=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.add(d?'dark':'light')}catch{}`;
+// Opt in before the first paint, and fail open if the app cannot hydrate.
+const motionScript = `try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver'in window){document.documentElement.dataset.motion='boot';setTimeout(function(){if(document.documentElement.dataset.motion==='boot')delete document.documentElement.dataset.motion},4000)}}catch{}`;
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const config = getConfig();
-  return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head><body><ThemeProvider>
+  return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: themeScript + ';' + motionScript }} /></head><body><ThemeProvider>
     <a className="skip-link" href="#main">Skip to content</a>
     <Navigation items={config.navigation} siteTitle={config.site.title} />
     <PageMotion />

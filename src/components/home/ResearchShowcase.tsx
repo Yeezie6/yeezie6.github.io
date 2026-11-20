@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import PublicationCard from '@/components/publications/PublicationCard';
 import type { Publication } from '@/types/publication';
@@ -36,7 +36,7 @@ export default function ResearchShowcase({ publications }: { publications: Publi
     const left = element.scrollLeft + target.getBoundingClientRect().left - element.getBoundingClientRect().left;
     element.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
   }
-  return <div className="research-showcase" role="region" aria-roledescription="carousel" aria-label="Selected research">
+  return <div className="research-showcase" data-ready={ready} data-reveal="card" data-reveal-delay="1" role="region" aria-roledescription="carousel" aria-label="Selected research">
     <div className="research-rail" ref={rail} tabIndex={0} aria-label="Research cards. Use left and right arrow keys to browse." onKeyDown={event => {
       if (event.target !== event.currentTarget) return;
       if (event.key === 'ArrowRight') { event.preventDefault(); goTo(Math.min(active + 1, publications.length - 1)); }
@@ -44,13 +44,13 @@ export default function ResearchShowcase({ publications }: { publications: Publi
       if (event.key === 'Home') { event.preventDefault(); goTo(0); }
       if (event.key === 'End') { event.preventDefault(); goTo(publications.length - 1); }
     }}>
-      {publications.map((publication, index) => <div className="research-slide" key={publication.id} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${publications.length}: ${publication.title.split(':')[0]}`}><PublicationCard publication={publication} index={index} /></div>)}
+      {publications.map((publication, index) => <div className="research-slide" data-active={active === index} key={publication.id} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${publications.length}: ${publication.title.split(':')[0]}`}><PublicationCard publication={publication} index={index} /></div>)}
     </div>
-    {ready && <div className="showcase-controls">
-      <div className="showcase-picker" role="group" aria-label="Choose a publication">{publications.map((publication, index) => <button key={publication.id} type="button" onClick={() => goTo(index)} aria-pressed={active === index} aria-label={`Show ${publication.title.split(':')[0]}`}><span className="picker-number">{String(index + 1).padStart(2, '0')}</span><span>{publication.title.split(':')[0]}</span></button>)}</div>
-      <div className="showcase-arrows"><button type="button" className="icon-button" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous publication"><ArrowLeft size={19} /></button><button type="button" className="icon-button" onClick={() => goTo(active + 1)} disabled={active === publications.length - 1} aria-label="Next publication"><ArrowRight size={19} /></button></div>
+    <div className="showcase-controls" data-ready={ready}>
+      <div className="showcase-picker" style={{ '--active': active, '--count': publications.length } as CSSProperties} role="group" aria-label="Choose a publication">{publications.map((publication, index) => <button key={publication.id} type="button" onClick={() => goTo(index)} aria-pressed={active === index} aria-label={`Show ${publication.title.split(':')[0]}`}><span className="picker-number">{String(index + 1).padStart(2, '0')}</span><span>{publication.title.split(':')[0]}</span></button>)}</div>
+      <div className="showcase-arrows"><span className="showcase-count" aria-hidden="true">{String(active + 1).padStart(2, '0')} <span>/ {String(publications.length).padStart(2, '0')}</span></span><button type="button" className="icon-button" onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Previous publication"><ArrowLeft size={19} /></button><button type="button" className="icon-button" onClick={() => goTo(active + 1)} disabled={active === publications.length - 1} aria-label="Next publication"><ArrowRight size={19} /></button></div>
       <p className="sr-only" aria-live="polite" aria-atomic="true">Publication {active + 1} of {publications.length}: {publications[active]?.title.split(':')[0]}</p>
-    </div>}
+    </div>
     <p className="showcase-hint">Swipe or use the arrows to explore. Select a figure for a closer look.</p>
   </div>;
 }
