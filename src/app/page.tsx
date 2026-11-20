@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { getConfig } from '@/lib/config';
 import { getMarkdownContent, getBibtexContent, getTomlContent } from '@/lib/content';
 import { parseBibTeX } from '@/lib/bibtexParser';
-import PublicationCard from '@/components/publications/PublicationCard';
+import ResearchShowcase from '@/components/home/ResearchShowcase';
 import CardPage from '@/components/pages/CardPage';
 import { CardPageConfig } from '@/types/page';
 
@@ -47,7 +47,7 @@ export default function Home() {
     </section>
     <section className="section research-section" id="research" aria-labelledby="research-title">
       <div className="section-heading"><div><p className="eyebrow">Selected work</p><h2 id="research-title">Research in practice.</h2></div><Link className="text-link" href="/publications/">All publications <ArrowUpRight size={18} /></Link></div>
-      <div className="publication-list">{publications.map((publication, index) => <PublicationCard key={publication.id} publication={publication} index={index} />)}</div>
+      <ResearchShowcase publications={publications} />
     </section>
     {experience && <section className="section" id="experience" aria-labelledby="experience-title"><div className="section-heading"><div><p className="eyebrow">Along the way</p><h2 id="experience-title">Research, together.</h2></div><Link className="text-link" href="/teaching/">Experience <ArrowUpRight size={18} /></Link></div><CardPage config={experience} embedded /></section>}
     {news?.news?.length ? <section className="section news-section" aria-labelledby="news-title"><div><p className="eyebrow">Recent updates</p><h2 id="news-title">What’s new.</h2></div><ol className="news-list">{news.news.map((item, i) => <li key={`${item.date}-${i}`}><time dateTime={item.date}>{new Date(`${item.date}-01T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' })}</time><p>{item.content}</p></li>)}</ol></section> : null}

@@ -41,3 +41,13 @@ The project exports static files to `out/`. Existing GitHub Actions deploys when
 ## Validation
 
 Production build, TypeScript and the build's lint checks pass. Browser checks cover all four routes, publication search, empty-state recovery, citation copy, theme cycling, 320px and 390px mobile layouts, and loaded paper/company images. Reduced-motion, reduced-transparency, contrast and print variants are implemented in CSS; OS preference emulation was not available in this browser test.
+
+## Interaction update — 2026-11-21
+
+Inspired by the horizontal highlights and focused figure exploration at https://supermimic.github.io/.
+
+- Homepage research uses a native scroll-snap gallery in the order ArtHOI, Being-H0.5, XPolicyLab. Buttons, touch scrolling and keyboard arrows/Home/End share the same position.
+- Figures open in a native modal dialog with Escape, close button and backdrop dismissal, and focus restoration. The full publication list remains on `/publications/`.
+- Progressive entrance animations use the Web Animations API without hiding server-rendered content. Reduced-motion settings cancel animations and disable smooth scrolling.
+- Scroll progress and hover feedback; no autoplay, wheel interception or new dependencies.
+- Verified production build, desktop and 390px layout, gallery switching, modal close/focus restoration, filtered publication previews and an empty browser error/warning log. OS reduced motion was not emulated by the browser API.

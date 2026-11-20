@@ -1,5 +1,5 @@
 'use client';
-import Image from 'next/image';
+import FigurePreview from './FigurePreview';
 import { useState } from 'react';
 import { ArrowUpRight, Check, Copy } from 'lucide-react';
 import type { Publication } from '@/types/publication';
@@ -16,7 +16,7 @@ export default function PublicationCard({ publication: pub, index = 0, headingLe
   }
   return <article className="publication-card">
     <div className="publication-visual"><span className="work-number">{String(index + 1).padStart(2, '0')} / RESEARCH</span>
-      {pub.preview && <Image src={`/papers/${pub.preview}`} alt={`${shortTitle} research overview`} width={1000} height={600} className="paper-image" sizes="(max-width: 760px) 90vw, 44vw" />}
+      {pub.preview && <FigurePreview src={`/papers/${pub.preview}`} title={shortTitle} />}
       <span className="visual-caption">{shortTitle}<span>{pub.year}</span></span>
     </div>
     <div className="publication-body">

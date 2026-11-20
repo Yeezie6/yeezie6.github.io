@@ -4,6 +4,7 @@ import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { getConfig } from '@/lib/config';
+import PageMotion from '@/components/ui/PageMotion';
 export function generateMetadata(): Metadata {
   const config = getConfig();
   return {
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return <html lang="en" suppressHydrationWarning><head><script dangerouslySetInnerHTML={{ __html: themeScript }} /></head><body><ThemeProvider>
     <a className="skip-link" href="#main">Skip to content</a>
     <Navigation items={config.navigation} siteTitle={config.site.title} />
+    <PageMotion />
     <main id="main" tabIndex={-1}>{children}</main><Footer lastUpdated={config.site.last_updated} />
   </ThemeProvider></body></html>;
 }
